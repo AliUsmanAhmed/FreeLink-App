@@ -1,18 +1,3 @@
-import (
-	"encoding/binary"  // ← ADD THIS
-	"errors"
-	"fmt"
-	"io"
-	"log"
-	"net"
-	"runtime"
-	"sync"
-	"time"
-
-	"golang.org/x/crypto/nacl/box"
-	"golang.org/x/crypto/curve25519"
-)
-
 // go/main.go
 package main
 
@@ -22,19 +7,19 @@ package main
 */
 import "C"
 import (
-	"crypto/rand"
-	"encoding/hex"
-	"errors"
-	"fmt"
-	"io"
-	"log"
-	"net"
-	"runtime"
-	"sync"
-	"time"
+  "encoding/binary"  // ← ADD THIS LINE
+  "crypto/rand"
+  "errors"
+  "fmt"
+  "io"
+  "log"
+  "net"
+  "runtime"
+  "sync"
+  "time"
 
-	"golang.org/x/crypto/nacl/box"
-	"golang.org/x/crypto/curve25519"
+  "golang.org/x/crypto/nacl/box"
+  "golang.org/x/crypto/curve25519"
 )
 
 var (
