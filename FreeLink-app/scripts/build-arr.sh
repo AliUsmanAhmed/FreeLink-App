@@ -3,25 +3,30 @@
 
 echo "🏗️ Building Go AAR for FreeLink"
 
-cd "$(dirname "$0")/../go"
+cd "$(dirname "$0")/../go" || { echo "❌ Failed to enter go/ dir"; exit 1; }
 
-# Initialize Go module
-go mod init freelink-go
-go mod tidy
-
-# Install gomobile (only once per machine)
-echo "📦 Installing gomobile..."
-go install golang.org/x/mobile/cmd/gomobile@latest
-go install golang.org/x/mobile/cmd/gobind@latest
-
-# Setup gomobile (if not already done)
-if [ ! -d "$HOME/gomobile" ]; then
-  echo "🔧 Initializing gomobile..."
-  gomobile init
+# Init mod only if missing
+if [ ! -f go.mod ]; then
+  echo "📦 Initializing Go module..."
+  go mod init freelink-go
 fi
 
-# Build the AAR for Android
-echo "🔨 Building AAR..."
-gomobile bind -target=android -o ../flutter/android/app/libs/freelink.aar .
+go mod tidy
 
-echo "✅ AAR successfully built at ../flutter/android/app/libs/freelink.aar"
+# Install gomobile
+echo "🔧 Installing gomobile..."
+go install golang.org/x/mobile/cmd/gomobile@latest || { echo "❌ Failed to install gomobile"; exit 1; }
+go install golang.org/x/mobile/cmd/gobind@latest || { echo "❌ Failed to install gobind"; exit 1; }
+
+# Setup only once
+if [ ! -d "$HOME/gomobile" ]; then
+  echo "🔧 Initializing gomobile SDK..."
+  gomobile init || { echo "❌ gomobile init failed"; exit 1; }
+fi
+
+# Build AAR
+echo "🔨 Building AAR..."
+gomobile bind -target=android -o ../flutter/android/app/libs/freelink.aar . \
+  || { echo "❌ AAR build failed"; exit 1; }
+
+echo "✅ AAR built at ../flutter/android/app/libs/freelink.aar"
