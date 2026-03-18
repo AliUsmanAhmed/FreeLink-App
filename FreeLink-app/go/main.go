@@ -1,3 +1,18 @@
+import (
+	"encoding/binary"  // ← ADD THIS
+	"errors"
+	"fmt"
+	"io"
+	"log"
+	"net"
+	"runtime"
+	"sync"
+	"time"
+
+	"golang.org/x/crypto/nacl/box"
+	"golang.org/x/crypto/curve25519"
+)
+
 // go/main.go
 package main
 
