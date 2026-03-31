@@ -1,0 +1,12 @@
+version: "3.8"
+services:
+  freelink-server:
+    build:
+      context: .
+      dockerfile: FreeLink-app/go/Dockerfile
+    ports:
+      - "4000:4000"
+    restart: unless-stopped
+    environment:
+      - SERVER_PORT=4000
+    command: -port=4000
